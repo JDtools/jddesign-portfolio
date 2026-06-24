@@ -1,0 +1,11 @@
+[[redirects]]
+  from = "http://jddesign.space/*"
+  to = "https://jddesign.space/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.jddesign.space/*"
+  to = "https://jddesign.space/:splat"
+  status = 301
+  force = true

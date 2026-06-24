@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Евгения Бекметьева — продуктовый дизайнер</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..800;1,400..600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#FFFFFF;
+    --bg-soft:#F3F3F1;
+    --ink:#0E0E10;
+    --ink-2:#1A1A1E;
+    --body:#33333A;
+    --muted:#76767E;
+    --faint:#9A9AA1;
+    --line:rgba(14,14,16,0.11);
+    --line-soft:rgba(14,14,16,0.07);
+    --accent:#1976D2;
+    --accent-ink:#125AA6;
+    --wrap:1120px;
+    --measure:760px;
+    --font:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:var(--font);font-size:19px;line-height:1.6;font-weight:400;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  ::selection{background:#D9E8F8;color:var(--ink);}
+  a{color:inherit;text-decoration:none;}
+
+  /* header */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,0.82);
+    backdrop-filter:saturate(180%) blur(14px);
+    -webkit-backdrop-filter:saturate(180%) blur(14px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{
+    max-width:var(--wrap);margin:0 auto;padding:0 40px;height:64px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{font-weight:600;letter-spacing:-0.01em;font-size:17px;}
+  .nav-links{display:flex;align-items:center;gap:28px;}
+  .nav-links a{font-size:15px;color:var(--muted);font-weight:500;transition:color .18s ease;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-links a.cv{color:var(--ink);display:inline-flex;align-items:center;gap:7px;}
+  .nav-links a.cv::after{
+    content:"";width:13px;height:13px;flex:none;background:currentColor;
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M5 17.59 15.59 7H9V5h10v10h-2V8.41L6.41 19z'/%3E%3C/svg%3E") center/contain no-repeat;
+    mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M5 17.59 15.59 7H9V5h10v10h-2V8.41L6.41 19z'/%3E%3C/svg%3E") center/contain no-repeat;
+  }
+
+  .wrap{max-width:var(--wrap);margin:0 auto;padding-inline:40px;}
+  .eyebrow{font-size:13px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);}
+
+  /* hero */
+  .hero{padding-top:clamp(64px,9vw,120px);padding-bottom:clamp(40px,6vw,72px);}
+  .hero .eyebrow{margin-bottom:24px;}
+  h1{
+    font-size:clamp(40px,6vw,76px);line-height:1.0;font-weight:600;
+    letter-spacing:-0.035em;margin:0 0 28px;color:var(--ink);text-wrap:balance;
+  }
+  .hero .lede{
+    font-size:clamp(19px,2vw,23px);line-height:1.5;color:var(--ink-2);
+    font-weight:400;letter-spacing:-0.01em;max-width:640px;margin:0;
+  }
+
+  /* cases */
+  .cases{padding-top:clamp(40px,6vw,64px);padding-bottom:clamp(72px,10vw,128px);}
+  .cases-head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+    padding-bottom:28px;margin-bottom:clamp(28px,4vw,48px);border-bottom:1px solid var(--line);
+  }
+  .cases-head .ttl{font-size:clamp(20px,2.2vw,26px);font-weight:600;letter-spacing:-0.02em;color:var(--ink);}
+  .cases-head .count{font-size:15px;color:var(--muted);font-variant-numeric:tabular-nums;}
+
+  .case-grid{display:flex;flex-direction:column;gap:clamp(48px,7vw,96px);}
+
+  .case-card{display:block;position:relative;}
+  .case-media{
+    position:relative;overflow:hidden;border-radius:18px;
+    aspect-ratio:16/9;background:var(--bg-soft);
+    border:1px solid var(--line-soft);
+    box-shadow:0 1px 2px rgba(14,14,16,0.04);
+    transition:box-shadow .45s cubic-bezier(.2,.6,.2,1);
+  }
+  .case-media img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .6s cubic-bezier(.2,.6,.2,1);
+  }
+  .case-card:hover .case-media{box-shadow:0 24px 60px -24px rgba(14,14,16,0.28);}
+  .case-card:hover .case-media img{transform:scale(1.035);}
+
+  .case-cap{
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+    margin-top:22px;
+  }
+  .case-meta{display:flex;flex-direction:column;gap:6px;}
+  .case-title{font-size:clamp(20px,2.1vw,26px);font-weight:600;letter-spacing:-0.02em;color:var(--ink);line-height:1.15;}
+  .case-tag{font-size:15px;color:var(--muted);letter-spacing:-0.005em;}
+  .case-tag .dotsep{display:inline-block;width:3px;height:3px;border-radius:50%;background:var(--faint);vertical-align:middle;margin:0 9px 2px;}
+
+  .case-go{
+    display:inline-flex;align-items:center;gap:9px;white-space:nowrap;flex:none;
+    font-size:15px;font-weight:600;color:var(--accent-ink);letter-spacing:-0.005em;
+  }
+  .case-go .arr{
+    width:16px;height:16px;display:inline-block;background:currentColor;
+    transition:transform .35s cubic-bezier(.2,.6,.2,1);
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M5 13h11.17l-4.88 4.88L12 19l7-7-7-7-1.41 1.41L16.17 11H5z'/%3E%3C/svg%3E") center/contain no-repeat;
+    mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M5 13h11.17l-4.88 4.88L12 19l7-7-7-7-1.41 1.41L16.17 11H5z'/%3E%3C/svg%3E") center/contain no-repeat;
+  }
+  .case-card:hover .case-go .arr{transform:translateX(4px);}
+
+  .case-soon{
+    display:inline-flex;align-items:center;gap:8px;white-space:nowrap;flex:none;
+    font-size:12.5px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;
+    color:var(--faint);padding:7px 13px;border-radius:999px;border:1px solid var(--line);
+  }
+  .case-soon .dot{width:7px;height:7px;border-radius:50%;background:var(--faint);}
+
+  /* pending cards: slightly dimmed cover */
+  .case-card.pending{cursor:default;}
+  .case-card.pending .case-media img{filter:saturate(0.92);}
+  .case-card.pending:hover .case-media{box-shadow:0 1px 2px rgba(14,14,16,0.04);}
+  .case-card.pending:hover .case-media img{transform:none;}
+
+  /* section heading */
+  .sec-head{margin-bottom:clamp(28px,4vw,44px);}
+  .sec-head .eyebrow{margin-bottom:14px;}
+  .sec-head .ttl{font-size:clamp(26px,3.4vw,40px);font-weight:600;letter-spacing:-0.03em;color:var(--ink);line-height:1.05;margin:0;text-wrap:balance;}
+
+  /* about */
+  .about{padding-top:clamp(8px,2vw,28px);padding-bottom:clamp(44px,6vw,72px);}
+  .about-inner{display:grid;grid-template-columns:auto 1fr;gap:clamp(28px,5vw,60px);align-items:center;}
+  .about-photo{
+    width:clamp(132px,17vw,196px);height:clamp(132px,17vw,196px);border-radius:50%;flex:none;
+    background:var(--bg-soft);border:1px solid var(--line-soft);
+    box-shadow:0 16px 40px -16px rgba(14,14,16,0.32);
+  }
+  .about-photo img{width:100%;height:100%;border-radius:50%;display:block;object-fit:cover;}
+  .about-body .lead{
+    font-size:clamp(18px,1.9vw,22px);line-height:1.5;color:var(--ink-2);
+    letter-spacing:-0.01em;margin:0 0 22px;max-width:580px;font-weight:400;
+  }
+  .facts{display:flex;flex-wrap:wrap;gap:10px;}
+  .fact{
+    display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;
+    color:var(--body);padding:8px 15px;border-radius:999px;border:1px solid var(--line);background:#fff;
+  }
+  .fact .fdot{width:6px;height:6px;border-radius:50%;background:var(--faint);flex:none;}
+  .fact.hl{color:var(--accent-ink);border-color:rgba(25,118,210,0.32);background:rgba(25,118,210,0.06);}
+  .fact.hl .fdot{background:var(--accent);}
+
+  /* companies */
+  .companies{padding-bottom:clamp(44px,6vw,72px);}
+  .companies-row{
+    display:flex;flex-wrap:wrap;align-items:center;gap:clamp(12px,1.4vw,20px);
+    padding-top:26px;border-top:1px solid var(--line);
+  }
+  .companies .clbl{font-size:13px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);margin-right:8px;}
+  .company{font-size:clamp(16px,1.7vw,20px);font-weight:600;letter-spacing:-0.015em;color:var(--ink-2);white-space:nowrap;}
+  .csep{width:4px;height:4px;border-radius:50%;background:var(--faint);flex:none;}
+
+  /* skills */
+  .skills{padding-bottom:clamp(56px,8vw,104px);}
+  .skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px);}
+  .skill-col{padding-top:24px;border-top:2px solid var(--ink);}
+  .skill-cat{font-size:clamp(18px,1.9vw,22px);font-weight:600;letter-spacing:-0.02em;color:var(--ink);margin:0 0 16px;}
+  .skill-list{display:flex;flex-direction:column;gap:0;}
+  .skill-item{
+    font-size:16.5px;color:var(--body);padding:11px 0;border-bottom:1px solid var(--line-soft);
+    letter-spacing:-0.005em;
+  }
+  .skill-item:last-child{border-bottom:0;}
+  .skill-chips{display:flex;flex-wrap:wrap;gap:12px;}
+  .schip{
+    font-size:clamp(16px,1.7vw,19px);font-weight:500;color:var(--ink-2);letter-spacing:-0.01em;
+    padding:12px 22px;border-radius:999px;border:1px solid var(--line);background:#fff;white-space:nowrap;
+    transition:border-color .2s ease,color .2s ease;
+  }
+  .schip:hover{border-color:rgba(25,118,210,0.4);color:var(--accent-ink);}
+
+  /* footer */
+  footer{padding:56px 0;border-top:1px solid var(--line);}
+  .foot-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+  .foot-inner .who{font-size:15px;color:var(--muted);}
+  .foot-links{display:flex;gap:24px;}
+  .foot-links a{font-size:15px;color:var(--muted);font-weight:500;transition:color .18s ease;}
+  .foot-links a:hover{color:var(--ink);}
+
+  /* entrance (transform-only, never hides content) */
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{animation:riseIn .7s cubic-bezier(.2,.6,.2,1) both;}
+    .case-grid .case-card:nth-child(2){animation-delay:.06s;}
+    .case-grid .case-card:nth-child(3){animation-delay:.12s;}
+  }
+  @keyframes riseIn{from{transform:translateY(16px);}to{transform:none;}}
+
+  @media (max-width:860px){
+    body{font-size:18px;}
+    .wrap{padding-inline:24px;}
+    .nav-inner{padding:0 24px;}
+    .nav-links{gap:18px;}
+    .case-media{border-radius:14px;}
+    .case-cap{flex-direction:column;align-items:flex-start;gap:12px;}
+    .about-inner{grid-template-columns:1fr;gap:24px;justify-items:start;text-align:left;}
+    .skills-grid{grid-template-columns:1fr;gap:8px;}
+    .skill-col{border-top-width:1px;padding-top:18px;}
+  }
+  @media (max-width:520px){ .nav-links .lk-hide{display:none;} }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">Евгения Бекметьева</a>
+    <nav class="nav-links">
+      <a class="lk-hide" href="#about">Обо мне</a>
+      <a class="lk-hide" href="https://www.linkedin.com/in/jbekmet/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="cv" href="https://drive.google.com/file/d/1kgHaeoxoBC2R3ffDzeZs8odtGlPuWkuG/view?usp=sharing" target="_blank" rel="noopener">CV</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap">
+    <div class="eyebrow reveal">Продуктовый дизайнер</div>
+    <h1 class="reveal">Евгения Бекметьева</h1>
+    <p class="lede reveal">Проектирую продукты через исследования, гипотезы и метрики. Помогаю командам находить точки роста и превращать их в работающие решения.</p>
+  </section>
+
+  <section class="about wrap" id="about">
+    <div class="about-inner reveal">
+      <div class="about-photo">
+        <img src="uploads/evgenia-avatar.png" alt="Евгения Бекметьева" loading="eager" />
+      </div>
+      <div class="about-body">
+        <p class="lead">Продуктовый дизайнер с опытом в финтехе, EdTech и B2B CRM. Веду продукт от discovery и исследований до дизайна и delivery.</p>
+        <div class="facts">
+          <span class="fact"><span class="fdot"></span>6+ лет в дизайне</span>
+          <span class="fact"><span class="fdot"></span>Финтех · EdTech · B2B CRM</span>
+          <span class="fact"><span class="fdot"></span>Discovery → Delivery</span>
+          <span class="fact"><span class="fdot"></span>Алматы, Казахстан</span>
+          <span class="fact hl"><span class="fdot"></span>Open to Remote</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="companies wrap">
+    <div class="companies-row reveal">
+      <span class="clbl">Опыт</span>
+      <span class="company">Bilim Group</span><span class="csep"></span>
+      <span class="company">Home Credit Bank</span><span class="csep"></span>
+      <span class="company">Chocofamily</span><span class="csep"></span>
+      <span class="company">PuzzlePro</span><span class="csep"></span>
+      <span class="company">Rocket Tech</span>
+    </div>
+  </section>
+
+  <section class="skills wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Навыки</div>
+      <h2 class="ttl">Senior Product Designer with Product Management Mindset</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-col reveal">
+        <h3 class="skill-cat">Research &amp; Discovery</h3>
+        <div class="skill-list">
+          <div class="skill-item">Discovery</div>
+          <div class="skill-item">JTBD</div>
+          <div class="skill-item">CustDev</div>
+          <div class="skill-item">UX Research</div>
+          <div class="skill-item">Jobs Mapping</div>
+        </div>
+      </div>
+      <div class="skill-col reveal">
+        <h3 class="skill-cat">Product &amp; Strategy</h3>
+        <div class="skill-list">
+          <div class="skill-item">Product Strategy</div>
+          <div class="skill-item">Product Analytics</div>
+          <div class="skill-item">Hypothesis Validation</div>
+          <div class="skill-item">MVP Definition</div>
+          <div class="skill-item">Prioritization</div>
+          <div class="skill-item">Growth Experiments</div>
+        </div>
+      </div>
+      <div class="skill-col reveal">
+        <h3 class="skill-cat">Delivery</h3>
+        <div class="skill-list">
+          <div class="skill-item">End-to-End Delivery</div>
+          <div class="skill-item">Design Systems</div>
+          <div class="skill-item">Stakeholder Management</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cases wrap">
+    <div class="cases-head reveal">
+      <div class="ttl">Избранные кейсы</div>
+      <div class="count">03</div>
+    </div>
+
+    <div class="case-grid">
+
+      <!-- Live: Накопи на мечту -->
+      <a class="case-card reveal" href="nakopi.html">
+        <div class="case-media">
+          <img src="uploads/Home.png" alt="«Накопи на мечту» — фича для накоплений, Home Credit Bank" loading="eager" />
+        </div>
+        <div class="case-cap">
+          <div class="case-meta">
+            <div class="case-title">«Накопи на мечту» — фича, которая учит копить</div>
+            <div class="case-tag">Home Credit Bank<span class="dotsep"></span>Финтех · депозиты<span class="dotsep"></span>2024</div>
+          </div>
+          <span class="case-go">Смотреть кейс<span class="arr"></span></span>
+        </div>
+      </a>
+
+      <!-- Live: Smart Nation / Damu -->
+      <a class="case-card reveal" href="damu.html">
+        <div class="case-media">
+          <img src="uploads/Damu.png" alt="Damu — от рисёрча до прототипа CRM для детских центров, SmartNation Damu" loading="lazy" />
+        </div>
+        <div class="case-cap">
+          <div class="case-meta">
+            <div class="case-title">Damu — от рисёрча до CRM для детских центров</div>
+            <div class="case-tag">SmartNation Damu<span class="dotsep"></span>UX-исследование · прототип<span class="dotsep"></span>2026</div>
+          </div>
+          <span class="case-go">Смотреть кейс<span class="arr"></span></span>
+        </div>
+      </a>
+
+      <!-- Live: Choco -->
+      <a class="case-card reveal" href="choco.html">
+        <div class="case-media">
+          <img src="uploads/Choco.png" alt="Choco Business — кабинет мерчанта: лендинг привлечения и флоу создания акции, Chocofamily" loading="lazy" />
+        </div>
+        <div class="case-cap">
+          <div class="case-meta">
+            <div class="case-title">Choco Business — кабинет мерчанта, который запускает акции сам</div>
+            <div class="case-tag">Chocofamily<span class="dotsep"></span>B2B CRM · лендинг + флоу<span class="dotsep"></span>2023</div>
+          </div>
+          <span class="case-go">Смотреть кейс<span class="arr"></span></span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div class="who">Евгения Бекметьева · 2026</div>
+    <div class="foot-links">
+      <a href="https://www.linkedin.com/in/jbekmet/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://drive.google.com/file/d/1kgHaeoxoBC2R3ffDzeZs8odtGlPuWkuG/view?usp=sharing" target="_blank" rel="noopener">CV</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Накопи на мечту — кейс · Евгения Бекметьева</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..800;1,400..600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#FFFFFF;
+    --bg-soft:#F3F3F1;
+    --bg-soft-2:#ECECE9;
+    --ink:#0E0E10;
+    --ink-2:#1A1A1E;
+    --body:#33333A;
+    --muted:#76767E;
+    --faint:#9A9AA1;
+    --line:rgba(14,14,16,0.11);
+    --line-soft:rgba(14,14,16,0.07);
+    --accent:#1976D2;
+    --accent-ink:#125AA6;
+    --no:#C0392B;
+    --mid:#BF8A1E;
+    --yes:#2E7D32;
+    --wrap:1160px;
+    --measure:760px;
+    --font:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font);
+    font-size:19px;
+    line-height:1.6;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:#D9E8F8;color:var(--ink);}
+  a{color:inherit;text-decoration:none;}
+
+  /* ---------- progress ---------- */
+  .progress{
+    position:fixed;top:0;left:0;height:2px;width:0;
+    background:var(--accent);z-index:100;
+    transition:width .08s linear;
+  }
+
+  /* ---------- header ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,0.82);
+    backdrop-filter:saturate(180%) blur(14px);
+    -webkit-backdrop-filter:saturate(180%) blur(14px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{
+    max-width:var(--wrap);margin:0 auto;
+    padding:11px 40px;min-height:64px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .nav-left{display:flex;flex-direction:column;gap:2px;}
+  .brand{font-weight:600;letter-spacing:-0.01em;font-size:17px;color:var(--ink);}
+  .nav-left a.back{
+    color:var(--muted);font-weight:600;font-size:13.5px;
+    display:inline-flex;align-items:center;gap:6px;
+    transition:color .18s var(--ease,ease);
+  }
+  .nav-left a.back:hover{color:var(--ink);}
+  .nav-left a.back .ar{
+    width:14px;height:14px;flex:none;background:currentColor;
+    transition:transform .35s cubic-bezier(.2,.6,.2,1);
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M19 11H7.83l4.88-4.88L11.29 4.7 4 12l7.29 7.3 1.42-1.42L7.83 13H19z'/%3E%3C/svg%3E") center/contain no-repeat;
+    mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M19 11H7.83l4.88-4.88L11.29 4.7 4 12l7.29 7.3 1.42-1.42L7.83 13H19z'/%3E%3C/svg%3E") center/contain no-repeat;
+  }
+  .nav-left a.back:hover .ar{transform:translateX(-3px);}
+  .nav-links{display:flex;align-items:center;gap:28px;}
+  .nav-links a{
+    font-size:15px;color:var(--muted);font-weight:500;
+    transition:color .18s var(--ease,ease);
+  }
+  .nav-links a:hover{color:var(--ink);}
+  .nav-links a.cv{
+    color:var(--ink);
+    display:inline-flex;align-items:center;gap:7px;
+  }
+  .nav-links a.cv::after{
+    content:"";width:13px;height:13px;flex:none;
+    background:currentColor;
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M5 17.59 15.59 7H9V5h10v10h-2V8.41L6.41 19z'/%3E%3C/svg%3E") center/contain no-repeat;
+    mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M5 17.59 15.59 7H9V5h10v10h-2V8.41L6.41 19z'/%3E%3C/svg%3E") center/contain no-repeat;
+  }
+
+  /* ---------- layout ---------- */
+  .wrap{max-width:var(--wrap);margin:0 auto;padding-inline:40px;}
+  .measure{max-width:var(--measure);}
+  section{padding-block:clamp(72px,9vw,124px);}
+  .rule{height:1px;background:var(--line);border:0;margin:0;}
+
+  .eyebrow{
+    font-size:13px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--faint);
+  }
+  h2.section-title{
+    font-size:clamp(26px,3vw,40px);
+    line-height:1.08;font-weight:600;letter-spacing:-0.025em;
+    margin:0 0 8px;color:var(--ink);text-wrap:balance;
+  }
+  h3.sub{
+    font-size:clamp(21px,2.2vw,28px);
+    line-height:1.18;font-weight:600;letter-spacing:-0.015em;
+    margin:0 0 18px;
+  }
+  p{margin:0 0 22px;color:var(--body);}
+  p:last-child{margin-bottom:0;}
+  strong{font-weight:700;color:var(--ink);}
+  em{font-style:italic;}
+  .lede{font-size:clamp(20px,2.1vw,25px);line-height:1.45;color:var(--ink-2);font-weight:400;letter-spacing:-0.01em;}
+  .muted{color:var(--muted);}
+
+  /* ---------- hero ---------- */
+  .hero{padding-top:clamp(56px,8vw,104px);padding-bottom:clamp(40px,6vw,72px);}
+  .hero .kicker{margin-bottom:26px;}
+  .hero-back{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:15px;font-weight:600;color:var(--muted);
+    margin-bottom:22px;transition:color .18s var(--ease,ease);
+  }
+  .hero-back:hover{color:var(--ink);}
+  .hero-back .ar{
+    width:15px;height:15px;flex:none;background:currentColor;
+    transition:transform .35s cubic-bezier(.2,.6,.2,1);
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M19 11H7.83l4.88-4.88L11.29 4.7 4 12l7.29 7.3 1.42-1.42L7.83 13H19z'/%3E%3C/svg%3E") center/contain no-repeat;
+    mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M19 11H7.83l4.88-4.88L11.29 4.7 4 12l7.29 7.3 1.42-1.42L7.83 13H19z'/%3E%3C/svg%3E") center/contain no-repeat;
+  }
+  .hero-back:hover .ar{transform:translateX(-3px);}
+  h1{
+    font-size:clamp(40px,6.6vw,84px);
+    line-height:1.02;font-weight:600;letter-spacing:-0.035em;
+    margin:0 0 26px;color:var(--ink);max-width:14ch;text-wrap:balance;
+  }
+  h1 .q{color:var(--ink);}
+  .hero-meta{
+    display:inline-flex;align-items:center;gap:12px;flex-wrap:wrap;
+    font-size:16px;color:var(--muted);font-weight:500;margin-bottom:32px;
+  }
+  .hero-meta .dotsep{width:4px;height:4px;border-radius:50%;background:var(--faint);}
+  .hero .lede{max-width:720px;}
+  .hero .lede strong{font-weight:700;}
+
+  /* ---------- stats ---------- */
+  .stats{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:0;border-top:1px solid var(--line);
+  }
+  .stat{padding:40px 36px 40px 0;border-left:1px solid var(--line);padding-left:36px;}
+  .stat:first-child{border-left:0;padding-left:0;}
+  .stat .num{
+    font-size:clamp(40px,5.2vw,68px);line-height:1;font-weight:600;
+    letter-spacing:-0.04em;color:var(--ink);margin-bottom:14px;
+    display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;
+  }
+  .stat .num .unit{font-size:0.42em;font-weight:500;letter-spacing:-0.01em;color:var(--muted);}
+  .stat .num .arrow{color:var(--faint);font-weight:400;}
+  .stat .cap{font-size:16px;line-height:1.4;color:var(--muted);max-width:30ch;}
+
+  /* ---------- image slots ---------- */
+  image-slot{
+    display:block;width:100%;height:auto;background:var(--bg-soft);
+    border:1px solid var(--line-soft);
+    --is-bg:var(--bg-soft);
+  }
+  .figure{margin:0;position:relative;}
+  .figure .cap{
+    margin-top:14px;font-size:14.5px;color:var(--muted);letter-spacing:-0.005em;
+  }
+  .cover image-slot{aspect-ratio:16/7;height:auto;}
+  .shot-16 image-slot{aspect-ratio:16/7;height:auto;}
+  .shot-mobile image-slot{aspect-ratio:9/11;height:auto;}
+
+  /* ---------- context ---------- */
+  .bigquote{
+    font-size:clamp(20px,2.15vw,27px);line-height:1.32;font-weight:500;
+    letter-spacing:-0.012em;color:var(--ink-2);
+    max-width:26ch;margin:0;position:relative;text-wrap:pretty;
+  }
+  .quote-block{
+    display:grid;grid-template-columns:minmax(0,1.4fr) minmax(260px,0.9fr);
+    gap:clamp(40px,6vw,96px);align-items:start;
+  }
+  .meta-list{display:flex;flex-direction:column;gap:0;}
+  .meta-item{padding:22px 0;border-top:1px solid var(--line);}
+  .meta-item:last-child{border-bottom:1px solid var(--line);}
+  .meta-item .k{font-size:13px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);margin-bottom:10px;}
+  .meta-item .v{font-size:17px;line-height:1.5;color:var(--body);}
+  .meta-item .v strong{color:var(--ink);}
+
+  /* ---------- hypotheses list ---------- */
+  .hyp-list{display:flex;flex-direction:column;gap:0;margin-top:8px;}
+  .hyp-row{
+    display:grid;grid-template-columns:48px 1fr auto;gap:24px;align-items:center;
+    padding:26px 0;border-top:1px solid var(--line);
+  }
+  .hyp-row:last-child{border-bottom:1px solid var(--line);}
+  .hyp-row .idx{font-size:18px;font-weight:600;color:var(--faint);font-variant-numeric:tabular-nums;}
+  .hyp-row .txt{font-size:clamp(18px,1.9vw,22px);line-height:1.35;color:var(--ink-2);letter-spacing:-0.01em;font-weight:500;}
+  .status{
+    display:inline-flex;align-items:center;gap:9px;white-space:nowrap;
+    font-size:12.5px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;
+    padding:7px 14px;border-radius:999px;border:1px solid var(--line);
+  }
+  .status .dot{width:8px;height:8px;border-radius:50%;flex:none;}
+  .status--no{color:#A2392F;background:rgba(192,57,43,0.05);}
+  .status--no .dot{background:var(--no);}
+  .status--mid{color:#8F6916;background:rgba(191,138,30,0.07);}
+  .status--mid .dot{background:var(--mid);}
+  .status--yes{color:#246C29;background:rgba(46,125,50,0.06);}
+  .status--yes .dot{background:var(--yes);}
+
+  /* ---------- section heading with status ---------- */
+  .head-status{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px;}
+  .head-status .eyebrow{margin:0;white-space:nowrap;}
+
+  /* ---------- callout (вывод) ---------- */
+  .callout{
+    border-left:2px solid var(--accent);
+    padding:6px 0 6px 28px;margin:36px 0 0;
+    max-width:var(--measure);
+  }
+  .callout .lbl{font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:10px;}
+  .callout p{font-size:19px;color:var(--ink-2);}
+
+  /* ---------- before/after ---------- */
+  .ba-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.4vw,32px);
+    align-items:start;margin-top:8px;
+  }
+  .ba-col .ba-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  }
+  .ba-tag{
+    font-size:12.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+    padding:5px 11px;border-radius:999px;
+  }
+  .ba-tag.before{background:var(--bg-soft-2);color:var(--muted);}
+  .ba-tag.after{background:#E4EFFA;color:var(--accent-ink);}
+  .ba-col .ba-note{font-size:14.5px;color:var(--muted);}
+  .ba-arrow{
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;color:var(--faint);margin:18px 0 4px;letter-spacing:0.1em;
+    text-transform:uppercase;font-weight:600;
+  }
+
+  /* ---------- insights ---------- */
+  .insights{display:flex;flex-direction:column;gap:0;margin-top:40px;max-width:var(--measure);}
+  .insight{
+    display:grid;grid-template-columns:auto 1fr;gap:22px;
+    padding:26px 0;border-top:1px solid var(--line);
+  }
+  .insight:last-child{border-bottom:1px solid var(--line);}
+  .insight .n{
+    font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--faint);padding-top:3px;white-space:nowrap;
+  }
+  .insight .body p{margin:0;}
+  .insight .arrow-to{color:var(--accent-ink);font-weight:600;}
+
+  /* ---------- results ---------- */
+  .results-grid{display:flex;flex-direction:column;gap:0;margin-top:8px;}
+  .result{
+    display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.5fr);
+    gap:clamp(24px,5vw,80px);align-items:baseline;
+    padding:38px 0;border-top:1px solid var(--line);
+  }
+  .result:last-child{border-bottom:1px solid var(--line);}
+  .result .r-head{font-size:clamp(22px,2.4vw,30px);font-weight:600;letter-spacing:-0.02em;line-height:1.15;color:var(--ink);}
+  .result .r-head .em{color:var(--accent-ink);}
+  .result .r-body{font-size:18px;color:var(--body);line-height:1.55;}
+
+  /* ---------- next steps ---------- */
+  .next-list{list-style:none;padding:0;margin:24px 0 0;max-width:var(--measure);}
+  .next-list li{
+    padding:22px 0;border-top:1px solid var(--line);
+    display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;
+    font-size:19px;color:var(--ink-2);line-height:1.45;
+  }
+  .next-list li:last-child{border-bottom:1px solid var(--line);}
+  .next-list li .mk{color:var(--faint);font-weight:600;font-variant-numeric:tabular-nums;}
+
+  /* ---------- conclusion ---------- */
+  .conclusion{background:var(--ink);color:#fff;}
+  .conclusion .eyebrow{color:rgba(255,255,255,0.5);}
+  .conclusion .big{
+    font-size:clamp(23px,2.5vw,32px);line-height:1.32;font-weight:500;
+    letter-spacing:-0.018em;color:#fff;max-width:30ch;margin:20px 0 0;text-wrap:pretty;
+  }
+  .conclusion .big strong{font-weight:700;color:#7FB4F0;}
+  .conclusion .big .hl{
+    background:linear-gradient(transparent 62%, rgba(49,159,255,0.32) 62%);
+  }
+
+  /* ---------- zoom button + lightbox ---------- */
+  .zoom-btn{
+    position:absolute;top:14px;right:14px;z-index:3;
+    display:inline-flex;align-items:center;gap:8px;
+    font:600 13.5px/1 var(--font);color:#fff;letter-spacing:-0.005em;
+    background:rgba(14,14,16,0.72);border:0;border-radius:999px;
+    padding:9px 15px;cursor:pointer;
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    transition:background .18s var(--ease,ease);
+  }
+  .zoom-btn:hover{background:rgba(14,14,16,0.92);}
+  .figure image-slot:not([data-filled]) + .zoom-btn{display:none;}
+  .zoom-btn .zi{
+    width:15px;height:15px;flex:none;background:currentColor;
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z'/%3E%3C/svg%3E") center/contain no-repeat;
+    mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z'/%3E%3C/svg%3E") center/contain no-repeat;
+  }
+  .lightbox{position:fixed;inset:0;z-index:200;display:none;background:rgba(8,8,10,0.94);}
+  .lightbox.open{display:flex;align-items:center;justify-content:center;}
+  .lb-scroll{width:100%;height:100%;overflow:auto;display:flex;align-items:center;}
+  .lb-img{display:block;max-width:94vw;max-height:92vh;width:auto;height:auto;margin:auto;border-radius:8px;}
+  .lightbox.wide .lb-img{max-width:none;max-height:none;height:88vh;width:auto;}
+  .baked-shot{width:100%;display:block;height:auto;border-radius:14px;border:1px solid var(--line-soft);background:var(--bg-soft);cursor:zoom-in;}
+  .lb-close{
+    position:fixed;top:18px;right:22px;z-index:2;width:46px;height:46px;
+    border-radius:50%;border:0;cursor:pointer;color:#fff;font-size:20px;line-height:1;
+    background:rgba(255,255,255,0.14);transition:background .18s var(--ease,ease);
+  }
+  .lb-close:hover{background:rgba(255,255,255,0.26);}
+  .flow-strip image-slot{aspect-ratio:32/9;height:auto;background:var(--bg-soft);}
+  @media (max-width:860px){ .lightbox.wide .lb-img{height:80vh;} .zoom-btn{font-size:12.5px;padding:8px 13px;} .flow-strip image-slot{aspect-ratio:21/9;} }
+
+  /* ---------- footer ---------- */
+  footer{padding:56px 0;border-top:1px solid var(--line);}
+  .foot-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+  .foot-inner .who{font-size:15px;color:var(--muted);}
+  .foot-links{display:flex;gap:24px;}
+  .foot-links a{font-size:15px;color:var(--muted);font-weight:500;transition:color .18s ease;}
+  .foot-links a:hover{color:var(--ink);}
+
+  /* ---------- reveal (transform-only: content stays fully opaque, never hides) ---------- */
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{animation:riseIn .7s cubic-bezier(.2,.6,.2,1) both;}
+    .reveal:nth-child(2){animation-delay:.05s;}
+    .reveal:nth-child(3){animation-delay:.1s;}
+  }
+  @keyframes riseIn{from{transform:translateY(16px);}to{transform:none;}}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:860px){
+    body{font-size:18px;}
+    .wrap{padding-inline:24px;}
+    .nav-inner{padding:0 24px;}
+    .nav-links{gap:18px;}
+    .stats{grid-template-columns:1fr;}
+    .stat{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-block:30px;}
+    .stat:first-child{border-top:0;}
+    .stats{border-top:0;}
+    .quote-block{grid-template-columns:1fr;gap:40px;}
+    .ba-grid{grid-template-columns:1fr;gap:28px;}
+    .ba-arrow{display:none;}
+    .result{grid-template-columns:1fr;gap:14px;padding:30px 0;}
+    .hyp-row{grid-template-columns:30px 1fr;gap:14px;}
+    .hyp-row .status{grid-column:2;justify-self:start;margin-top:4px;}
+  }
+  @media (max-width:520px){
+    .nav-links .lk-hide{display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <a class="brand" href="index.html">Евгения Бекметьева</a>
+    </div>
+    <nav class="nav-links">
+      <a class="lk-hide" href="https://www.linkedin.com/in/jbekmet/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="cv" href="https://drive.google.com/file/d/1kgHaeoxoBC2R3ffDzeZs8odtGlPuWkuG/view?usp=sharing" target="_blank" rel="noopener">CV</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero wrap" data-screen-label="Hero">
+    <a class="hero-back reveal" href="index.html"><span class="ar"></span>Все кейсы</a>
+    <div class="kicker eyebrow reveal">Продуктовый дизайн · Кейс</div>
+    <h1 class="reveal"><span class="q">«Накопи на&nbsp;мечту»</span> — фича, которая учит копить</h1>
+    <div class="hero-meta reveal">
+      <span>Home&nbsp;Credit&nbsp;Bank</span><span class="dotsep"></span>
+      <span>Mobile&nbsp;app</span><span class="dotsep"></span>
+      <span>2026</span>
+    </div>
+    <p class="lede reveal">Переосмыслила флоу открытия и управления депозитами и спроектировала механику целевых накоплений. За первые полтора месяца CR в открытие депозита вырос <strong>на&nbsp;11%</strong>, средняя длина вклада — <strong>с&nbsp;3 до&nbsp;3,5&nbsp;месяцев</strong>.</p>
+  </section>
+
+  <!-- STATS -->
+  <section class="wrap" style="padding-top:0;">
+    <div class="stats reveal">
+      <div class="stat">
+        <div class="num">+11<span class="unit">%</span></div>
+        <div class="cap">CR в открытие депозита за первые 1,5&nbsp;месяца</div>
+      </div>
+      <div class="stat">
+        <div class="num">3 <span class="arrow">→</span> 3,5 <span class="unit">мес</span></div>
+        <div class="cap">Средняя длина вклада (цель — 6)</div>
+      </div>
+      <div class="stat">
+        <div class="num">3 <span class="unit">гипотезы</span></div>
+        <div class="cap">Проверила интервью, глубинками и юзертестами</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COVER -->
+  <section class="wrap cover" style="padding-top:0;">
+    <figure class="figure reveal">
+      <img class="baked-shot" src="uploads/baked-cover.webp" alt="Ключевой экран фичи «Накопи на мечту»" loading="lazy" />
+      <figcaption class="cap">Ключевой экран фичи «Накопи на мечту». Клик открывает крупно.</figcaption>
+    </figure>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- CONTEXT -->
+  <section class="wrap" data-screen-label="Контекст">
+    <div class="eyebrow reveal" style="margin-bottom:24px;">Контекст</div>
+    <div class="quote-block">
+      <div class="reveal">
+        <p class="muted" style="margin-bottom:28px;">Команда депозитов пришла с запросом:</p>
+        <blockquote class="bigquote">«Разработайте решение, влияющее на пользовательское поведение: стимулирующее накопление, снижающее частоту снятия средств и увеличивающее длительность депозитов»</blockquote>
+        <p style="margin-top:32px;">Если перевести с продуктового: юзеры мало открывают депозиты, быстро их закрывают и не понимают, зачем они вообще нужны. В декабре депозит открыли всего <strong>2854 человека</strong>, средний вклад жил 3&nbsp;месяца.</p>
+      </div>
+      <div class="meta-list reveal">
+        <div class="meta-item">
+          <div class="k">Моя роль</div>
+          <div class="v">Продуктовый дизайнер — от анализа данных и генерации гипотез до интервью, юзертестов и финальных макетов.</div>
+        </div>
+        <div class="meta-item">
+          <div class="k">Цели · измеримо</div>
+          <div class="v">Поднять CR в открытие на&nbsp;<strong>35%</strong>, увеличить среднюю длину вклада <strong>с&nbsp;3 до&nbsp;6&nbsp;месяцев</strong> и донести ценность продукта — на депозиты не было ни одного вау-отзыва.</div>
+        </div>
+        <div class="meta-item">
+          <div class="k">Продукт</div>
+          <div class="v">Home&nbsp;Credit&nbsp;Bank · мобильное приложение · 2026</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- HYPOTHESES INTRO -->
+  <section class="wrap" data-screen-label="Гипотезы">
+    <div class="eyebrow reveal" style="margin-bottom:20px;">Подход</div>
+    <h2 class="section-title measure reveal">Сначала поняла, где болит, а&nbsp;не где кажется</h2>
+    <p class="measure reveal" style="margin-top:18px;">Я не стала сразу рисовать экраны. Собрала количественные данные о поведении юзеров из аналитики и качественную обратную связь по всем каналам — поддержка, отзывы, менеджеры. Из этого родились три гипотезы о том, почему люди не копят:</p>
+    <div class="hyp-list reveal">
+      <div class="hyp-row">
+        <div class="idx">01</div>
+        <div class="txt">Юзеры застревают на экране выбора депозита — слишком много предложений</div>
+        <span class="status status--no"><span class="dot"></span>Не подтвердилась</span>
+      </div>
+      <div class="hyp-row">
+        <div class="idx">02</div>
+        <div class="txt">Юзеры не понимают раздел «Накопления» и его ценность</div>
+        <span class="status status--mid"><span class="dot"></span>Частично</span>
+      </div>
+      <div class="hyp-row">
+        <div class="idx">03</div>
+        <div class="txt">Если дать юзеру создать цель, вовлечённость в накопление вырастет</div>
+        <span class="status status--yes"><span class="dot"></span>Подтвердилась</span>
+      </div>
+    </div>
+    <p class="measure muted reveal" style="margin-top:28px;">Дальше — что показала проверка каждой.</p>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- HYPOTHESIS 1 -->
+  <section class="wrap" data-screen-label="Гипотеза 1">
+    <div class="head-status reveal">
+      <span class="eyebrow">Гипотеза 1</span>
+      <span class="status status--no"><span class="dot"></span>Не подтвердилась</span>
+    </div>
+    <h2 class="section-title measure reveal">Думали, проблема в&nbsp;экране выбора. Оказалось — нет</h2>
+    <div class="measure" style="margin-top:24px;">
+      <p class="reveal">По данным аналитики большое количество юзеров «застревало» на экране со списком депозитов и уходило. Классическая ловушка: цифры кричат, что проблема здесь, и рука тянется переделывать экран.</p>
+      <p class="reveal">Вместо редизайна я провела серию телефонных интервью с юзерами, которые ушли с этой страницы. Выяснилось: они просто изучали варианты. Сравнивали условия, уходили подумать — и возвращались открывать вклад у нас или у конкурентов. Это нормальное поведение при выборе финансового продукта, а не затык в интерфейсе.</p>
+    </div>
+    <div class="callout reveal">
+      <div class="lbl">Вывод</div>
+      <p>Экран не трогаем. Интервью на пару дней сэкономили недели разработки и уберегли от редизайна работающего флоу. Аналитика показывает, <em>где</em> уходят, но не <em>почему</em>.</p>
+    </div>
+    <figure class="figure shot-16 reveal" style="margin-top:48px;">
+      <img class="baked-shot" src="uploads/baked-screen-deposit-list.webp" alt="Экран выбора депозитов" loading="lazy" />
+      <figcaption class="cap">Экран выбора депозитов — тот самый, который решили не трогать.</figcaption>
+    </figure>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- HYPOTHESIS 2 -->
+  <section class="wrap" data-screen-label="Гипотеза 2">
+    <div class="head-status reveal">
+      <span class="eyebrow">Гипотеза 2</span>
+      <span class="status status--mid"><span class="dot"></span>Частично</span>
+    </div>
+    <h2 class="section-title measure reveal">Раздел «Накопления» понимают, но&nbsp;не до&nbsp;конца</h2>
+    <div class="measure" style="margin-top:24px;">
+      <p class="reveal">Идея была в том, что юзер, увидев на главной вкладку «Накопления», перейдёт в неё и поймёт: это его пространство для накоплений, вот его польза и ценность.</p>
+      <p class="reveal">Глубинные интервью показали: раздел считывается, но его ценность и устройство — нет. Юзеры не понимали, куда попали и что здесь можно делать.</p>
+    </div>
+
+    <h3 class="sub reveal" style="margin-top:56px;">Итерация №1: было → стало</h3>
+    <div class="ba-grid reveal">
+      <div class="ba-col">
+        <div class="ba-label"><span class="ba-tag before">Было</span></div>
+        <figure class="figure shot-mobile">
+          <img class="baked-shot" src="uploads/baked-savings-before.webp" alt="«Накопления» — было" loading="lazy" />
+        </figure>
+        <p class="ba-note" style="margin-top:14px;">Пустые карточки-«призраки», непонятная навигация, автопополнение без контекста.</p>
+      </div>
+      <div class="ba-col">
+        <div class="ba-label"><span class="ba-tag after">Стало</span></div>
+        <figure class="figure shot-mobile">
+          <img class="baked-shot" src="uploads/baked-savings-after.webp" alt="«Накопления» — стало" loading="lazy" />
+        </figure>
+        <p class="ba-note" style="margin-top:14px;">Понятное пояснение раздела, выделенный основной продукт — цель мечты.</p>
+      </div>
+    </div>
+
+    <p class="measure reveal" style="margin-top:48px;">Из глубинок вытащила три инсайта и переработала раздел:</p>
+    <div class="insights reveal">
+      <div class="insight">
+        <div class="n">Инсайт 1</div>
+        <div class="body"><p>Юзеры не понимали «кнопки-призраки» — пустые карточки продуктов. Было неясно, что клик открывает новый продукт. <span class="arrow-to">→</span> Отказалась от модели призраков, продукты больше не «исчезают».</p></div>
+      </div>
+      <div class="insight">
+        <div class="n">Инсайт 2</div>
+        <div class="body"><p>Непонятно, куда попал. <span class="arrow-to">→</span> Добавила пояснение, что это за раздел, и выделила основной продукт — цель мечты, чтобы он не терялся среди остальных.</p></div>
+      </div>
+      <div class="insight">
+        <div class="n">Инсайт 3</div>
+        <div class="body"><p>Автопополнение в этом разделе вызывало вопросы. <span class="arrow-to">→</span> Убрала его отсюда; позже переработаем точки входа и решим, нужна ли фича вообще.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- HYPOTHESIS 3 -->
+  <section class="wrap" data-screen-label="Гипотеза 3">
+    <div class="head-status reveal">
+      <span class="eyebrow">Гипотеза 3 · Ключевая ставка</span>
+      <span class="status status--yes"><span class="dot"></span>Подтвердилась</span>
+    </div>
+    <h2 class="section-title measure reveal">Цель мечты повышает мотивацию копить</h2>
+    <div class="measure" style="margin-top:24px;">
+      <p class="reveal">Ключевая ставка кейса: если юзер настраивает собственную цель — называет её, выбирает картинку, сумму и срок, — депозит перестаёт быть абстрактным банковским продуктом и становится «деньгами на машину». Это повышает ценность вклада и мотивацию копить вдолгую.</p>
+      <p class="reveal">На юзертестах экран настройки цели оказался полностью понятен — и по механике, и по ценности. Юзеры без подсказок разобрались с кастомизацией: название, сумма, тип депозита, дата окончания цели.</p>
+    </div>
+    <figure class="figure shot-16 reveal" style="margin-top:48px;">
+      <img class="baked-shot" src="uploads/baked-screen-goal.webp" alt="Экран создания цели мечты" loading="lazy" />
+      <figcaption class="cap">Экран создания цели — название, сумма, тип депозита и дата окончания.</figcaption>
+    </figure>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- RESULTS -->
+  <section class="wrap" data-screen-label="Результаты">
+    <div class="eyebrow reveal" style="margin-bottom:20px;">Результаты · честно, без натяжек</div>
+    <h2 class="section-title reveal" style="margin-bottom:36px;">Что получилось</h2>
+    <div class="results-grid reveal">
+      <div class="result">
+        <div class="r-head">CR в открытие:<br /><span class="em">+11%</span> из целевых +35%</div>
+        <div class="r-body">Данные за январь и часть февраля. Динамика положительная, до цели ещё расти.</div>
+      </div>
+      <div class="result">
+        <div class="r-head">Длина вклада:<br /><span class="em">3 → 3,5&nbsp;мес</span> из целевых 6</div>
+        <div class="r-body">Метрика инертная: чтобы вклады «удлинились», должно пройти время. Эффект фичи здесь смотрим на длинной дистанции.</div>
+      </div>
+      <div class="result">
+        <div class="r-head">Ценность:<br /><span class="em">первые сигналы «вау»</span></div>
+        <div class="r-body">Интервью с юзерами, которые завели цель мечты, показывают рост привлекательности продукта и намерение копить в долгосрок — первые качественные сигналы того самого «вау», которого у депозитов не было.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- NEXT -->
+  <section class="wrap" data-screen-label="Что дальше">
+    <div class="eyebrow reveal" style="margin-bottom:20px;">Что дальше</div>
+    <h2 class="section-title measure reveal">Куда движемся</h2>
+    <ul class="next-list reveal">
+      <li><span class="mk">01</span><span>Переработать автопополнение: найти ему правильные точки входа или отказаться.</span></li>
+      <li><span class="mk">02</span><span>Развить сторителлинг раздела «Накопления» — онбординг в формате сторис.</span></li>
+      <li><span class="mk">03</span><span>Продолжить замер длины вкладов на дистанции 6+ месяцев.</span></li>
+    </ul>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- FULL FLOW -->
+  <section class="wrap" data-screen-label="Полный флоу">
+    <div class="eyebrow reveal" style="margin-bottom:20px;">Полный флоу</div>
+    <h2 class="section-title measure reveal">Полный флоу фичи</h2>
+    <p class="measure muted reveal" style="margin-top:14px;">Весь сценарий целиком, экран за экраном. Нажмите «Рассмотреть ближе», чтобы открыть флоу во весь экран.</p>
+    <figure class="figure flow-strip reveal" style="margin-top:36px;">
+      <img class="baked-shot baked-flow" src="uploads/baked-nak-flow.webp" alt="Полный флоу фичи «Накопи на мечту»" loading="lazy" />
+    </figure>
+  </section>
+
+  <!-- CONCLUSION -->
+  <section class="conclusion" data-screen-label="Главный вывод">
+    <div class="wrap">
+      <div class="eyebrow reveal">Главный вывод</div>
+      <p class="big reveal">Самым ценным решением кейса оказалось то, которое мы <strong>не</strong> сделали. Аналитика уверенно показывала «проблему» на экране выбора депозитов — и без интервью мы бы потратили месяцы на редизайн экрана, в котором не было проблемы. <span class="hl">Данные говорят, где смотреть; люди говорят, что происходит.</span></p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div class="who">Евгения Бекметьева · 2026</div>
+    <div class="foot-links">
+      <a href="index.html">← Все кейсы</a>
+      <a href="https://www.linkedin.com/in/jbekmet/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://drive.google.com/file/d/1kgHaeoxoBC2R3ffDzeZs8odtGlPuWkuG/view?usp=sharing" target="_blank" rel="noopener">CV</a>
+    </div>
+  </div>
+</footer>
+
+<div class="lightbox" id="lb-nak" role="dialog" aria-modal="true" aria-label="Скриншот крупным планом">
+  <button class="lb-close" type="button" aria-label="Закрыть">✕</button>
+  <div class="lb-scroll"><img class="lb-img" alt="Скриншот крупным планом" /></div>
+</div>
+
+<script>
+  // scroll progress
+  var progress = document.getElementById('progress');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var p = max > 0 ? (h.scrollTop || document.body.scrollTop) / max : 0;
+    progress.style.width = (p * 100) + '%';
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  onScroll();
+
+  // zoom-to-fullscreen: add a "Рассмотреть ближе" button to every fillable screenshot
+  (function(){
+    var slots = document.querySelectorAll('.figure image-slot');
+    for(var i=0;i<slots.length;i++){
+      var slot = slots[i];
+      if(slot.closest('.cover')) continue;
+      var nx = slot.nextElementSibling;
+      if(nx && nx.classList && nx.classList.contains('zoom-btn')) continue;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'zoom-btn';
+      b.innerHTML = '<span class="zi"></span>Рассмотреть ближе';
+      slot.insertAdjacentElement('afterend', b);
+    }
+  })();
+  document.addEventListener('click', function(e){
+    var bk = e.target.closest && e.target.closest('.baked-shot');
+    if(bk){
+      var lbb = document.querySelector('.lightbox');
+      if(lbb){
+        lbb.querySelector('.lb-img').src = bk.getAttribute('src');
+        lbb.classList.toggle('wide', bk.classList.contains('baked-flow'));
+        lbb.classList.add('open');
+        document.documentElement.style.overflow = 'hidden';
+      }
+      return;
+    }
+    var btn = e.target.closest && e.target.closest('.zoom-btn');
+    if(btn){
+      var slot = btn.previousElementSibling;
+      var lb = document.querySelector('.lightbox');
+      var img = slot && slot.shadowRoot && slot.shadowRoot.querySelector('.frame img');
+      var src = img && img.getAttribute('src');
+      if(!src || !lb) return;
+      lb.querySelector('.lb-img').src = src;
+      lb.classList.add('open');
+      document.documentElement.style.overflow = 'hidden';
+      return;
+    }
+    var lbEl = e.target.closest && e.target.closest('.lightbox');
+    if(lbEl && !(e.target.classList && e.target.classList.contains('lb-img'))){
+      lbEl.classList.remove('open');
+      lbEl.classList.remove('wide');
+      document.documentElement.style.overflow = '';
+      var im = lbEl.querySelector('.lb-img'); if(im) im.removeAttribute('src');
+    }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      var open = document.querySelector('.lightbox.open');
+      if(open){ open.classList.remove('open'); open.classList.remove('wide'); document.documentElement.style.overflow=''; var im=open.querySelector('.lb-img'); if(im) im.removeAttribute('src'); }
+    }
+  });
+</script>
+</body>
+</html>
